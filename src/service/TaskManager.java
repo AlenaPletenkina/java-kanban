@@ -1,3 +1,9 @@
+package service;
+
+import model.Epic;
+import model.Subtask;
+import model.TaskStatus;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
@@ -113,7 +119,7 @@ public class TaskManager {
         }
     }
 
-    public void removeTaskById(int id) { // Удаление по идентификатору объекта Task
+    public void removeTaskById(int id) { // Удаление по идентификатору объекта model.Task
         tasks.remove(id);
     }
 
