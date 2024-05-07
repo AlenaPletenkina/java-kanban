@@ -1,9 +1,10 @@
+
 import model.Epic;
 import model.Subtask;
 import model.TaskStatus;
-import service.TaskManager;
 import model.Task;
-
+import service.InMemoryTaskManager;
+import service.TaskManager;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +13,8 @@ public class Main {
     public static void main(String[] args) {
 
         System.out.println("Поехали!");
-        TaskManager taskManager = new TaskManager();
+
+        TaskManager taskManager = new InMemoryTaskManager();
         //Создаю две задачи, а также эпик с двумя подзадачами и эпик с одной подзадачей.
         Task task1 = new Task("Сходить на тренировку", "Сегодня в 15.00", 1, TaskStatus.DONE);
         Task task2 = new Task("Сделать уборку",
@@ -85,5 +87,17 @@ public class Main {
         System.out.println("Количество подзадач = " + taskManager.getAllSubtasks().size());
         System.out.println("Количество задач = " + taskManager.getAllTasks().size());
 
+
+        System.out.println("ИСТОРИЯ");
+        List<Task> history = taskManager.getHistory();
+        System.out.println("В истории сохранено " + history.size() + " просмотров");
+        taskManager.getEpicById(createdEpic2.getId());
+        taskManager.getSubtaskById(createdEpic2.getSubtasks().get(0));
+
+        history = taskManager.getHistory();
+        System.out.println("В истории сохранено " + history.size() + " просмотров");
+        System.out.println(history);
     }
 }
+
+

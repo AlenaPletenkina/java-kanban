@@ -16,6 +16,9 @@ public class Task {
         this.status = status;
     }
 
+    public Task() {
+    }
+
     public String getName() {
         return name;
     }
@@ -48,20 +51,7 @@ public class Task {
         this.status = status;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Task task = (Task) o;
-        return id == task.id && Objects.equals(name, task.name)
-                && Objects.equals(description, task.description)
-                && status == task.status;
-    }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(name, description, id, status);
-    }
 
     @Override
     public String toString() {
@@ -74,4 +64,16 @@ public class Task {
     }
 
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Task task = (Task) o;
+        return id == task.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }
