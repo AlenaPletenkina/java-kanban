@@ -1,7 +1,7 @@
 package test;
 
-import model.Epic;
-import model.TaskStatus;
+import main.model.Epic;
+import main.model.TaskStatus;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

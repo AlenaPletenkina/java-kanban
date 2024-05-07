@@ -1,10 +1,11 @@
+package main;
 
-import model.Epic;
-import model.Subtask;
-import model.TaskStatus;
-import model.Task;
-import service.InMemoryTaskManager;
-import service.TaskManager;
+import main.model.Epic;
+import main.model.Subtask;
+import main.model.Task;
+import main.model.TaskStatus;
+import main.service.InMemoryTaskManager;
+import main.service.TaskManager;
 import java.util.ArrayList;
 import java.util.List;
 
