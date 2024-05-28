@@ -40,8 +40,7 @@ class InMemoryTaskManagerTest {
         manager.createSubtask(subtask1);
     }
 
-    //InMemoryTaskManager добавляет задачи разного типа и может найти их по id
-    @Test
+    @Test //InMemoryTaskManager добавляет задачи разного типа и может найти их по id
     public void createTaskAndCheckThatItIsNotEmpty() {
         Task createdTask1 = manager.createTask(task1);
         assertNotNull(createdTask1);
@@ -88,18 +87,15 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
-    public void taskUnchangedAfterAdding() {//проверяется неизменность задачи при добавлении задачи в менеджер
+    public void taskUnchangedAfterAdding() { //проверяется неизменность задачи при добавлении задачи в менеджер
         Task taskFromManager = manager.getTaskById(task1.getId());
 
         assertNotNull(taskFromManager);
         assertEquals(task1.getName(), taskFromManager.getName());
         assertEquals(task1.getDescription(), taskFromManager.getDescription());
         assertEquals(task1.getStatus(), taskFromManager.getStatus());
-
     }
-    //Удаляемые подзадачи не должны хранить внутри себя старые id.
 
-    //Внутри эпиков не должно оставаться неактуальных id подзадач.
     @Test
     public void epicDeleteUnActualSubtask() {
         List<Epic> allEpics = manager.getAllEpics();
