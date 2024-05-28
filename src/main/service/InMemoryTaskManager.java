@@ -135,14 +135,14 @@ public class InMemoryTaskManager implements TaskManager {
     public void updateEpic(Epic epic) {
         if (epics.containsKey(epic.getId())) {
             List<Integer> subtasks1 = epic.getSubtasks();
-            boolean hasError=false;
+            boolean hasError = false;
             for (Integer id : subtasks1) {
                 if (epic.getId() == id) {
                     hasError = true;
                     break;
                 }
             }
-            if(!hasError){
+            if (!hasError) {
                 TaskStatus status = epics.get(epic.getId()).getStatus();
                 epic.setStatus(status);
                 epics.put(epic.getId(), epic);
@@ -187,8 +187,8 @@ public class InMemoryTaskManager implements TaskManager {
         Subtask subtask = subtasks.get(id);
         Epic epic = epics.get(subtask.getEpic());
         List<Integer> subtasks1 = epic.getSubtasks();
-        int index=-1;
-        for(Integer subtaskId:subtasks1) {
+        int index = -1;
+        for (Integer subtaskId : subtasks1) {
             index++;
             if (subtaskId == subtask.getId()) {
                 break;
