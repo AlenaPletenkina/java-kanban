@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import main.service.InMemoryTaskManager;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -28,11 +29,14 @@ class InMemoryTaskManagerTest {
                 TaskStatus.NEW);
         epic1 = new Epic("Сдать спринт", "Сдать спринт,чтобы пройти дальше по программе", 3,
                 TaskStatus.IN_PROGRESS, new ArrayList<>());
+        manager.createEpic(epic1);
+        List<Epic> allEpics = manager.getAllEpics();
+
         subtask1 = new Subtask("Задания в тренажере",
-                "Сделать все задания в тренажере", 5, TaskStatus.NEW, 0);
+                "Сделать все задания в тренажере", 5, TaskStatus.NEW, allEpics.get(0).getId());
         manager.createTask(task1);
         manager.createTask(task2);
-        manager.createEpic(epic1);
+
         manager.createSubtask(subtask1);
     }
 
@@ -93,8 +97,19 @@ class InMemoryTaskManagerTest {
         assertEquals(task1.getStatus(), taskFromManager.getStatus());
 
     }
+    //Удаляемые подзадачи не должны хранить внутри себя старые id.
 
-
+    //Внутри эпиков не должно оставаться неактуальных id подзадач.
+    @Test
+    public void epicDeleteUnActualSubtask() {
+        List<Epic> allEpics = manager.getAllEpics();
+        Epic epic = allEpics.get(0);
+        List<Integer> subtasks = epic.getSubtasks();
+        assertEquals(1, subtasks.size());
+        manager.removeSubtaskById(subtasks.get(0));
+         subtasks = epic.getSubtasks();
+        assertEquals(0, subtasks.size());
+    }
 }
 
 
