@@ -1,9 +1,15 @@
-package main.service;
+package yandex.practicum.service;
+
+
+import yandex.practicum.model.Task;
+
 import java.util.List;
-import main.model.Task;
+
 
 public interface HistoryManager {
     void add(Task task);
+
+    void remove(int id);
 
     List<Task> getHistory();
 

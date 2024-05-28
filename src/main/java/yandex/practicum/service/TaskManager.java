@@ -1,8 +1,9 @@
-package main.service;
+package yandex.practicum.service;
 
-import main.model.Epic;
-import main.model.Subtask;
-import main.model.Task;
+
+import yandex.practicum.model.Epic;
+import yandex.practicum.model.Subtask;
+import yandex.practicum.model.Task;
 
 import java.util.List;
 
@@ -46,4 +47,6 @@ public interface TaskManager {
     List<Subtask> getSubtaskList(Epic epic);
 
     List<Task> getHistory();
+
+    void removeFromHistory(int id);
 }

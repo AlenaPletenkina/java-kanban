@@ -1,8 +1,8 @@
-package test;
+package yandex.practicum;
 
-import main.model.Epic;
-import main.model.TaskStatus;
 import org.junit.jupiter.api.Test;
+import yandex.practicum.model.Epic;
+import yandex.practicum.model.TaskStatus;
 
 import java.util.ArrayList;
 
@@ -18,6 +18,5 @@ class EpicTest {
                 TaskStatus.IN_PROGRESS, new ArrayList<>());
 
         assertEquals(epic1, epic2);
-
     }
 }

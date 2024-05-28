@@ -1,4 +1,4 @@
-package main.model;
+package yandex.practicum.model;
 
 import java.util.List;
 

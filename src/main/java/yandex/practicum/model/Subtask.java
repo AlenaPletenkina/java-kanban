@@ -1,4 +1,4 @@
-package main.model;
+package yandex.practicum.model;
 
 public class Subtask extends Task {
     private Integer epic;

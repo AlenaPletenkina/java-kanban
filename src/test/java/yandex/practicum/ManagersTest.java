@@ -1,8 +1,8 @@
-package test;
+package yandex.practicum;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import main.service.Managers;
+import yandex.practicum.service.Managers;
 
 
 class ManagersTest {
