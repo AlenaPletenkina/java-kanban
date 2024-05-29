@@ -1,4 +1,4 @@
-package java.yandex.practicum;
+package yandex.practicum;
 
 import org.junit.jupiter.api.Test;
 import yandex.practicum.model.Epic;
@@ -7,6 +7,7 @@ import yandex.practicum.model.TaskStatus;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
 
 class EpicTest {
 
