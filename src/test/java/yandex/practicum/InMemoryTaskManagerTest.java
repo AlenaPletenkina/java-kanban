@@ -1,5 +1,4 @@
-package yandex.practicum;
-
+package java.yandex.practicum;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -104,7 +103,7 @@ class InMemoryTaskManagerTest {
         List<Integer> subtasks = epic.getSubtasks();
         assertEquals(1, subtasks.size());
         manager.removeSubtaskById(subtasks.get(0));
-         subtasks = epic.getSubtasks();
+        subtasks = epic.getSubtasks();
         assertEquals(0, subtasks.size());
     }
 }
