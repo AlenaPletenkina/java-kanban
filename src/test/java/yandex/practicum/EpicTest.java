@@ -16,7 +16,6 @@ class EpicTest {
                 TaskStatus.IN_PROGRESS, new ArrayList<>());
         Epic epic2 = new Epic("Сдать ", "Сдать ", 3,
                 TaskStatus.IN_PROGRESS, new ArrayList<>());
-
         assertEquals(epic1, epic2);
     }
 }
