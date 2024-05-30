@@ -1,4 +1,4 @@
-package yandex.practicum;
+package yandex.practicum.tasks;
 
 import org.junit.jupiter.api.Test;
 import yandex.practicum.model.Task;

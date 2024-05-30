@@ -1,4 +1,4 @@
-package yandex.practicum;
+package yandex.practicum.manager;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
