@@ -1,4 +1,4 @@
-package main.model;
+package yandex.practicum.model;
 
 public enum TaskStatus {
     NEW,

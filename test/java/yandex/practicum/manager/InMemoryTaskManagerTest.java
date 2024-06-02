@@ -1,14 +1,15 @@
-package test;
+package yandex.practicum.manager;
 
-import main.model.Epic;
-import main.model.Subtask;
-import main.model.Task;
-import main.model.TaskStatus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import main.service.InMemoryTaskManager;
+import yandex.practicum.model.Epic;
+import yandex.practicum.model.Subtask;
+import yandex.practicum.model.Task;
+import yandex.practicum.model.TaskStatus;
+import yandex.practicum.service.InMemoryTaskManager;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -28,16 +29,18 @@ class InMemoryTaskManagerTest {
                 TaskStatus.NEW);
         epic1 = new Epic("Сдать спринт", "Сдать спринт,чтобы пройти дальше по программе", 3,
                 TaskStatus.IN_PROGRESS, new ArrayList<>());
+        manager.createEpic(epic1);
+        List<Epic> allEpics = manager.getAllEpics();
+
         subtask1 = new Subtask("Задания в тренажере",
-                "Сделать все задания в тренажере", 5, TaskStatus.NEW, 0);
+                "Сделать все задания в тренажере", 5, TaskStatus.NEW, allEpics.get(0).getId());
         manager.createTask(task1);
         manager.createTask(task2);
-        manager.createEpic(epic1);
+
         manager.createSubtask(subtask1);
     }
 
-    //InMemoryTaskManager добавляет задачи разного типа и может найти их по id
-    @Test
+    @Test //InMemoryTaskManager добавляет задачи разного типа и может найти их по id
     public void createTaskAndCheckThatItIsNotEmpty() {
         Task createdTask1 = manager.createTask(task1);
         assertNotNull(createdTask1);
@@ -84,17 +87,25 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
-    public void taskUnchangedAfterAdding() {//проверяется неизменность задачи при добавлении задачи в менеджер
+    public void taskUnchangedAfterAdding() { //проверяется неизменность задачи при добавлении задачи в менеджер
         Task taskFromManager = manager.getTaskById(task1.getId());
 
         assertNotNull(taskFromManager);
         assertEquals(task1.getName(), taskFromManager.getName());
         assertEquals(task1.getDescription(), taskFromManager.getDescription());
         assertEquals(task1.getStatus(), taskFromManager.getStatus());
-
     }
 
-
+    @Test
+    public void epicDeleteUnActualSubtask() {
+        List<Epic> allEpics = manager.getAllEpics();
+        Epic epic = allEpics.get(0);
+        List<Integer> subtasks = epic.getSubtasks();
+        assertEquals(1, subtasks.size());
+        manager.removeSubtaskById(subtasks.get(0));
+        subtasks = epic.getSubtasks();
+        assertEquals(0, subtasks.size());
+    }
 }
 
 

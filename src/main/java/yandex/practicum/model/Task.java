@@ -1,4 +1,4 @@
-package main.model;
+package yandex.practicum.model;
 
 import java.util.Objects;
 
@@ -55,7 +55,7 @@ public class Task {
 
     @Override
     public String toString() {
-        return "main.model.Task{" +
+        return "main.java.model.Task{" +
                 "name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", id=" + id +

@@ -1,8 +1,8 @@
-package test;
+package yandex.practicum.tasks;
 
-import main.model.Task;
-import main.model.TaskStatus;
 import org.junit.jupiter.api.Test;
+import yandex.practicum.model.Task;
+import yandex.practicum.model.TaskStatus;
 
 import static org.junit.jupiter.api.Assertions.*;
 
