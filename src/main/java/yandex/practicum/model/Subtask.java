@@ -8,11 +8,18 @@ public class Subtask extends Task {
         this.epic = epic;
     }
 
+
     public Integer getEpic() {
         return epic;
     }
 
     public void setEpic(Integer epic) {
         this.epic = epic;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + epic;
+
     }
 }
