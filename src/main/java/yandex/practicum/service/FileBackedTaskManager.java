@@ -1,5 +1,6 @@
 package yandex.practicum.service;
 
+import yandex.practicum.exception.LoadFromFileException;
 import yandex.practicum.exception.ManagerSaveException;
 import yandex.practicum.model.Epic;
 import yandex.practicum.model.Subtask;
@@ -113,7 +114,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                 writer.write(subtasks.get(key).toString() + "\n");
             }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new ManagerSaveException(e.getMessage());
         }
     }
 
@@ -157,9 +158,9 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                 count += 1;
             }
         } catch (FileNotFoundException e) {
-            throw new ManagerSaveException("Файл не найден.");
+            throw new LoadFromFileException("Файл не найден.");
         } catch (IOException e) {
-            throw new ManagerSaveException("Ошибка чтения файла.");
+            throw new LoadFromFileException("Ошибка чтения файла.");
         }
     }
 }
