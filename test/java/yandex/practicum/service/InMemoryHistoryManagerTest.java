@@ -1,9 +1,8 @@
-package yandex.practicum.manager;
+package yandex.practicum.service;
 
 import org.junit.jupiter.api.Test;
 import yandex.practicum.model.Task;
 import yandex.practicum.model.TaskStatus;
-import yandex.practicum.service.InMemoryHistoryManager;
 
 import java.util.List;
 
@@ -46,7 +45,6 @@ class InMemoryHistoryManagerTest { //задачи, добавляемые в His
         assertEquals(task2.getDescription(), history.get(0).getDescription());
         assertEquals(task2.getStatus(), history.get(0).getStatus());
     }
-
 
     // проверяю,что при удалении из истории, все работает правильно
     @Test

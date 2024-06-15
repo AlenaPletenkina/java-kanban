@@ -7,6 +7,7 @@ public class Task {
     private String description;
     private int id;
     private TaskStatus status;
+    private TaskType type;
 
 
     public Task(String name, String description, int id, TaskStatus status) {
@@ -14,6 +15,8 @@ public class Task {
         this.description = description;
         this.id = id;
         this.status = status;
+        setType();
+
     }
 
     public Task() {
@@ -51,18 +54,24 @@ public class Task {
         this.status = status;
     }
 
+    public TaskType getType() {
+        return type;
+    }
 
+    private void setType() {
+        for (TaskType type : TaskType.values()) {
+            if (this.getClass().equals(type.getType())) {
+                this.type = type;
+            }
+        }
+    }
 
     @Override
     public String toString() {
-        return "main.java.model.Task{" +
-                "name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", id=" + id +
-                ", status=" + status +
-                '}';
-    }
+        return id + "," + type.name() + "," + name + ","
+                + status.name() + "," + description + ",";
 
+    }
 
     @Override
     public boolean equals(Object o) {

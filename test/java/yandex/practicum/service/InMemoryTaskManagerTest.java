@@ -1,4 +1,4 @@
-package yandex.practicum.manager;
+package yandex.practicum.service;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -6,7 +6,6 @@ import yandex.practicum.model.Epic;
 import yandex.practicum.model.Subtask;
 import yandex.practicum.model.Task;
 import yandex.practicum.model.TaskStatus;
-import yandex.practicum.service.InMemoryTaskManager;
 
 import java.util.ArrayList;
 import java.util.List;
