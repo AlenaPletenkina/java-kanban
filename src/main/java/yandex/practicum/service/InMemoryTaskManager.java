@@ -288,7 +288,6 @@ public class InMemoryTaskManager implements TaskManager {
         if (startTime == null) {
             return null;
         }
-
         LocalDateTime endTime = startTime.plus(duration);
 
         return endTime;
