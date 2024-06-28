@@ -6,6 +6,7 @@ import yandex.practicum.model.Subtask;
 import yandex.practicum.model.Task;
 
 import java.util.List;
+import java.util.TreeSet;
 
 public interface TaskManager {
     List<Task> getAllTasks();
@@ -49,4 +50,6 @@ public interface TaskManager {
     List<Task> getHistory();
 
     void removeFromHistory(int id);
+
+    TreeSet<Task> getPrioritizedTasks();
 }

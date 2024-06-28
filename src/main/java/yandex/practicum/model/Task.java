@@ -1,13 +1,17 @@
 package yandex.practicum.model;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
-public class Task {
+public class Task implements Comparable {
     private String name;
     private String description;
     private int id;
     private TaskStatus status;
     private TaskType type;
+    private Duration duration;
+    private LocalDateTime startTime;
 
 
     public Task(String name, String description, int id, TaskStatus status) {
@@ -17,6 +21,17 @@ public class Task {
         this.status = status;
         setType();
 
+
+    }
+
+    public Task(String name, String description, int id, TaskStatus status, Duration duration, LocalDateTime startTime) {
+        this.name = name;
+        this.description = description;
+        this.id = id;
+        this.status = status;
+        this.duration = duration;
+        this.startTime = startTime;
+        setType();
     }
 
     public Task() {
@@ -69,7 +84,7 @@ public class Task {
     @Override
     public String toString() {
         return id + "," + type.name() + "," + name + ","
-                + status.name() + "," + description + ",";
+                + status.name() + "," + description + "," + duration + "," + startTime + ",";
 
     }
 
@@ -84,5 +99,28 @@ public class Task {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    public Duration getDuration() {
+        return duration;
+    }
+
+    public void setDuration(Duration duration) {
+        this.duration = duration;
+    }
+
+    public LocalDateTime getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        Task task = (Task) o;
+        return startTime.compareTo(task.startTime);
+
     }
 }
