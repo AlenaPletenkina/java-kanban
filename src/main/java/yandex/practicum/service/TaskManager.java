@@ -50,5 +50,6 @@ public interface TaskManager {
     List<Task> getHistory();
 
     void removeFromHistory(int id);
+
     TreeSet<Task> getPrioritizedTasks();
 }
