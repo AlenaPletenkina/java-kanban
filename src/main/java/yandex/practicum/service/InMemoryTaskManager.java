@@ -259,7 +259,6 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     public Duration getDuration(Epic epic) {
-// надо вытащить все сабтаски и сложить их поле Дюратион и вернуть результат
         List<Subtask> subtasks1 = getSubtaskList(epic);
         Duration totalDuration = Duration.ofMinutes(0);
         for (Subtask subtask : subtasks1) {
@@ -271,7 +270,6 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     public LocalDateTime getStartTime(Epic epic) {
-// найти самую раннюю подзадачу и вернуть  значение ее поля старт тайм
         List<Subtask> subtasks2 = getSubtaskList(epic);
         LocalDateTime startTime = null;
         for (Subtask subtask : subtasks2) {

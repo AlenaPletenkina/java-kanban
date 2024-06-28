@@ -128,7 +128,7 @@ class InMemoryTaskManagerTest {
     @Test
     public void epicStatusShouldBeNew() {
 
-        Epic epic = new Epic("name", "дискриптион", 0, TaskStatus.DONE, new ArrayList<>());
+        Epic epic = new Epic("name", "Description", 0, TaskStatus.DONE, new ArrayList<>());
         manager.createEpic(epic);
 
         int id = epic.getId();
@@ -145,13 +145,13 @@ class InMemoryTaskManagerTest {
     @Test
     public void epicStatusShouldBeDone() {
 
-        Epic epic = new Epic("name", "дискриптион", 0, TaskStatus.DONE, new ArrayList<>());
+        Epic epic = new Epic("name", "Description", 0, TaskStatus.DONE, new ArrayList<>());
         manager.createEpic(epic);
 
         int id = epic.getId();
 
-        Subtask subtask = new Subtask("name", "disc", 1, TaskStatus.DONE, id);
-        Subtask subtask2 = new Subtask("name2", "disc2", 2, TaskStatus.DONE, id);
+        Subtask subtask = new Subtask("name", "Description", 1, TaskStatus.DONE, id);
+        Subtask subtask2 = new Subtask("name2", "Description2", 2, TaskStatus.DONE, id);
 
         manager.createSubtask(subtask);
         manager.createSubtask(subtask2);
@@ -161,13 +161,13 @@ class InMemoryTaskManagerTest {
 
     @Test
     public void epicStatusShouldBeInProgress() {
-        Epic epic = new Epic("name", "дискриптион", 0, TaskStatus.DONE, new ArrayList<>());
+        Epic epic = new Epic("name", "Description", 0, TaskStatus.DONE, new ArrayList<>());
         manager.createEpic(epic);
 
         int id = epic.getId();
 
-        Subtask subtask = new Subtask("name", "disc", 1, TaskStatus.DONE, id);
-        Subtask subtask2 = new Subtask("name2", "disc2", 2, TaskStatus.NEW, id);
+        Subtask subtask = new Subtask("name", "Description", 1, TaskStatus.DONE, id);
+        Subtask subtask2 = new Subtask("name2", "Description2", 2, TaskStatus.NEW, id);
 
         manager.createSubtask(subtask);
         manager.createSubtask(subtask2);
