@@ -9,6 +9,8 @@ import yandex.practicum.model.TaskStatus;
 
 import java.io.*;
 import java.nio.file.Path;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import static java.util.Objects.isNull;
@@ -103,7 +105,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
     public void save() {
         try (FileWriter writer = new FileWriter(file.toFile(), false)) {
-            writer.write("id,type,name,status,description,epic\n");
+            writer.write("id,type,name,status,description,duration,startTime,epic, endTime\n");
             for (Integer key : tasks.keySet()) {
                 writer.write(tasks.get(key).toString() + "\n");
             }
@@ -119,19 +121,22 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
     private static Task fromString(String value) { //  создание задачи из строки
-        String[] linesTask = value.split(",", 6);
+        String[] linesTask = value.split(",", 9);
         int id = Integer.parseInt(linesTask[0]);
         String name = linesTask[2];
         String type = linesTask[1];
         TaskStatus status = TaskStatus.valueOf(linesTask[3]);
         String description = linesTask[4];
+        Duration duration = Duration.parse(linesTask[5]);
+        LocalDateTime startTime = LocalDateTime.parse(linesTask[6]);
         if (type.equals(EPIC.name())) {
-            return new Epic(name, description, id, status, new ArrayList<>());
+            LocalDateTime endTime = LocalDateTime.parse(linesTask[8]);
+            return new Epic(name, description, id, status, new ArrayList<>(),startTime,duration,endTime);
         } else if (type.equals((SUBTASK.name()))) {
-            int epic = Integer.parseInt(linesTask[5]);
-            return new Subtask(name, description, id, status, epic);
+            int epic = Integer.parseInt(linesTask[7]);
+            return new Subtask(name, description, id, status, epic, startTime, duration);
         } else {
-            return new Task(name, description, id, status);
+            return new Task(name, description, id, status, duration, startTime);
         }
 
     }

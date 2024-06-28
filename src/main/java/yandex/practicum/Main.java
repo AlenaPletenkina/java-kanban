@@ -22,7 +22,7 @@ public class Main {
         Task task2 = new Task("Сделать уборку",
                 "Прибраться в квартире после тренировки", 2,
                 TaskStatus.NEW);
-        Epic epic1 = new Epic("Сдать спринт", "Сдать спринт,чтобы пройти дальше по программе", 3,
+        Epic epic1 = new Epic("Сдать спринт", "Сдать спринт чтобы пройти дальше по программе", 3,
                 TaskStatus.IN_PROGRESS, new ArrayList<>());
         Epic epic2 = new Epic("Подготовка к отпуску",
                 "Выполнить приготовления к перелету", 4, TaskStatus.DONE, new ArrayList<>());

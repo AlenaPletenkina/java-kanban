@@ -2,16 +2,18 @@ package yandex.practicum.service;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import yandex.practicum.exception.TaskValidationException;
 import yandex.practicum.model.Epic;
 import yandex.practicum.model.Subtask;
 import yandex.practicum.model.Task;
 import yandex.practicum.model.TaskStatus;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 class InMemoryTaskManagerTest {
     InMemoryTaskManager manager = new InMemoryTaskManager();
@@ -19,6 +21,7 @@ class InMemoryTaskManagerTest {
     Task task2;
     Epic epic1;
     Subtask subtask1;
+    Subtask subtaskStartTime;
 
     @BeforeEach
     public void beforeEach() {
@@ -26,17 +29,21 @@ class InMemoryTaskManagerTest {
         task2 = new Task("Сделать уборку",
                 "Прибраться в квартире после тренировки", 2,
                 TaskStatus.NEW);
-        epic1 = new Epic("Сдать спринт", "Сдать спринт,чтобы пройти дальше по программе", 3,
+        epic1 = new Epic("Сдать спринт", "Сдать спринт чтобы пройти дальше по программе", 3,
                 TaskStatus.IN_PROGRESS, new ArrayList<>());
         manager.createEpic(epic1);
         List<Epic> allEpics = manager.getAllEpics();
 
         subtask1 = new Subtask("Задания в тренажере",
                 "Сделать все задания в тренажере", 5, TaskStatus.NEW, allEpics.get(0).getId());
+        subtaskStartTime = new Subtask("Задания в тренажере",
+                "Сделать все задания в тренажере", 5, TaskStatus.NEW, allEpics.get(0).getId(),
+                LocalDateTime.now(), Duration.ofMinutes(90));
         manager.createTask(task1);
         manager.createTask(task2);
 
-        manager.createSubtask(subtask1);
+        //   manager.createSubtask(subtask1);
+        manager.createSubtask(subtaskStartTime);
     }
 
     @Test //InMemoryTaskManager добавляет задачи разного типа и может найти их по id
@@ -53,7 +60,16 @@ class InMemoryTaskManagerTest {
 
     @Test
     public void createSubtaskAndCheckThatItIsNotEmpty() {
-        Subtask createdSubtask1 = manager.createSubtask(subtask1);
+        Subtask createdSubtask1 = manager.createSubtask(subtaskStartTime);
+
+        Epic epic = manager.epics.get(createdSubtask1.getEpic());
+
+        assertEquals(createdSubtask1.getDuration(), epic.getDuration());
+
+        assertEquals(createdSubtask1.getStartTime(), epic.getStartTime());
+
+        assertEquals(epic.getEndTime(), epic.getStartTime().plus(epic.getDuration()));
+
         assertNotNull(createdSubtask1);
     }
 
@@ -104,6 +120,75 @@ class InMemoryTaskManagerTest {
         manager.removeSubtaskById(subtasks.get(0));
         subtasks = epic.getSubtasks();
         assertEquals(0, subtasks.size());
+
+        assertEquals(epic.getDuration(), Duration.ZERO);
+
+        assertNull(epic.getStartTime());
+        assertNull(epic.getEndTime());
+    }
+
+    @Test
+    public void epicStatusShouldBeNew() {
+
+        Epic epic = new Epic("name", "дискриптион", 0, TaskStatus.DONE, new ArrayList<>());
+        manager.createEpic(epic);
+
+        int id = epic.getId();
+
+        Subtask subtask = new Subtask("name", "disc", 1, TaskStatus.NEW, id);
+        Subtask subtask2 = new Subtask("name2", "disc2", 2, TaskStatus.NEW, id);
+
+        manager.createSubtask(subtask);
+        manager.createSubtask(subtask2);
+
+        assertEquals(TaskStatus.NEW, epic.getStatus());
+    }
+
+    @Test
+    public void epicStatusShouldBeDone() {
+
+        Epic epic = new Epic("name", "дискриптион", 0, TaskStatus.DONE, new ArrayList<>());
+        manager.createEpic(epic);
+
+        int id = epic.getId();
+
+        Subtask subtask = new Subtask("name", "disc", 1, TaskStatus.DONE, id);
+        Subtask subtask2 = new Subtask("name2", "disc2", 2, TaskStatus.DONE, id);
+
+        manager.createSubtask(subtask);
+        manager.createSubtask(subtask2);
+
+        assertEquals(TaskStatus.DONE, epic.getStatus());
+    }
+
+    @Test
+    public void epicStatusShouldBeInProgress() {
+        Epic epic = new Epic("name", "дискриптион", 0, TaskStatus.DONE, new ArrayList<>());
+        manager.createEpic(epic);
+
+        int id = epic.getId();
+
+        Subtask subtask = new Subtask("name", "disc", 1, TaskStatus.DONE, id);
+        Subtask subtask2 = new Subtask("name2", "disc2", 2, TaskStatus.NEW, id);
+
+        manager.createSubtask(subtask);
+        manager.createSubtask(subtask2);
+
+        assertEquals(TaskStatus.IN_PROGRESS, epic.getStatus());
+    }
+
+    @Test
+    public void failedValidationTaskTest() {
+        task1 = new Task("Сходить на тренировку", "Сегодня в 15.00", 1, TaskStatus.NEW,
+                Duration.ofMinutes(90), LocalDateTime.now());
+
+        assertThrowsExactly(TaskValidationException.class, () -> {
+            manager.createTask(task1);
+        });
+
+        assertThrowsExactly(TaskValidationException.class, () -> {
+            manager.updateTask(task1);
+        });
     }
 }
 

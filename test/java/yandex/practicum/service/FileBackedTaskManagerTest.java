@@ -2,6 +2,7 @@ package yandex.practicum.service;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import yandex.practicum.exception.LoadFromFileException;
 import yandex.practicum.exception.ManagerSaveException;
 import yandex.practicum.model.Epic;
 import yandex.practicum.model.Subtask;
@@ -9,13 +10,16 @@ import yandex.practicum.model.Task;
 
 import java.io.*;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
 
 import static java.util.Objects.isNull;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static yandex.practicum.model.TaskStatus.IN_PROGRESS;
 import static yandex.practicum.model.TaskStatus.NEW;
 
@@ -87,17 +91,19 @@ class FileBackedTaskManagerTest {
     }
 
     private void createTasks() {
-        Task task1 = new Task("Сходить на тренировку", "Сегодня в 15.00", 1, NEW);
+        Task task1 = new Task("Сходить на тренировку", "Сегодня в 15.00", 1, NEW, Duration.ofMinutes(90),
+                LocalDateTime.now());
         Task task2 = new Task("Сделать уборку",
                 "Прибраться в квартире после тренировки", 2,
-                NEW);
+                NEW, Duration.ofMinutes(40), LocalDateTime.of(2024, Month.JUNE, 25, 12, 0));
 
-        Epic epic1 = new Epic("Сдать спринт", "Сдать спринт,чтобы пройти дальше по программе", 3,
+        Epic epic1 = new Epic("Сдать спринт", "Сдать спринт чтобы пройти дальше по программе", 3,
                 IN_PROGRESS, new ArrayList<>());
         fileManager.createEpic(epic1);
         List<Epic> allEpics = fileManager.getAllEpics();
         Subtask subtask1 = new Subtask("Задания в тренажере",
-                "Сделать все задания в тренажере", 5, NEW, allEpics.get(0).getId());
+                "Сделать все задания в тренажере", 5, NEW, allEpics.get(0).getId(),
+                LocalDateTime.now(), Duration.ofMinutes(50));
 
         fileManager.createTask(task1);
         fileManager.createTask(task2);
@@ -114,4 +120,18 @@ class FileBackedTaskManagerTest {
         }
         return copied;
     }
+
+    @Test
+    public void shouldSaveOfEmptyThrowException() {
+        Path path = Path.of(("src/resource/historyTasksManager.csv"));
+        File file = new File(String.valueOf(path));
+        final LoadFromFileException exception = assertThrows(
+                LoadFromFileException.class,
+                () -> {
+                    fileManager.loadFromFile(file);
+                });
+        assertEquals("Файл не найден.", exception.getMessage());
+    }
+
+
 }
