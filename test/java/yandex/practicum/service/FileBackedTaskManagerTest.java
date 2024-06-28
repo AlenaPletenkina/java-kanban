@@ -103,7 +103,7 @@ class FileBackedTaskManagerTest {
         List<Epic> allEpics = fileManager.getAllEpics();
         Subtask subtask1 = new Subtask("Задания в тренажере",
                 "Сделать все задания в тренажере", 5, NEW, allEpics.get(0).getId(),
-                LocalDateTime.now(), Duration.ofMinutes(50));
+                LocalDateTime.of(2024, Month.JUNE, 20, 12, 0), Duration.ofMinutes(50));
 
         fileManager.createTask(task1);
         fileManager.createTask(task2);

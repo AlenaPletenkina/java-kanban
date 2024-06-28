@@ -320,7 +320,7 @@ public class InMemoryTaskManager implements TaskManager {
                     LocalDateTime startTime = task.getStartTime();
                     LocalDateTime endTime = startTime.plus(task.getDuration());
                     return !endTime.isBefore(task1.getStartTime())
-                            || !startTime.isAfter(task1.getStartTime().plus(task1.getDuration()));
+                            || startTime.isAfter(task1.getStartTime().plus(task1.getDuration()));
                 });
         if (anyMatch) {
             throw new TaskValidationException("Найдено пересечение времени задач.");
