@@ -60,17 +60,15 @@ class InMemoryTaskManagerTest {
 
     @Test
     public void createSubtaskAndCheckThatItIsNotEmpty() {
-        Subtask createdSubtask1 = manager.createSubtask(subtaskStartTime);
+        Epic epic = manager.epics.get(subtaskStartTime.getEpic());
 
-        Epic epic = manager.epics.get(createdSubtask1.getEpic());
+        assertEquals(subtaskStartTime.getDuration(), epic.getDuration());
 
-        assertEquals(createdSubtask1.getDuration(), epic.getDuration());
-
-        assertEquals(createdSubtask1.getStartTime(), epic.getStartTime());
+        assertEquals(subtaskStartTime.getStartTime(), epic.getStartTime());
 
         assertEquals(epic.getEndTime(), epic.getStartTime().plus(epic.getDuration()));
 
-        assertNotNull(createdSubtask1);
+        assertNotNull(subtaskStartTime);
     }
 
     @Test
@@ -87,8 +85,8 @@ class InMemoryTaskManagerTest {
 
     @Test
     public void canFindASubtaskByItsId() {
-        Subtask foundSubtask = manager.getSubtaskById(subtask1.getId());
-        assertEquals(subtask1, foundSubtask);
+        Subtask foundSubtask = manager.getSubtaskById(subtaskStartTime.getId());
+        assertEquals(subtaskStartTime, foundSubtask);
     }
 
     @Test
