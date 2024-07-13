@@ -1,5 +1,7 @@
 package yandex.practicum.service;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import yandex.practicum.exception.TaskValidationException;
@@ -10,15 +12,19 @@ import yandex.practicum.model.TaskStatus;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static yandex.practicum.model.TaskStatus.NEW;
 
 class InMemoryTaskManagerTest {
     InMemoryTaskManager manager = new InMemoryTaskManager();
     Task task1;
+
     Task task2;
+    Task task3;
     Epic epic1;
     Subtask subtask1;
     Subtask subtaskStartTime;
@@ -29,6 +35,8 @@ class InMemoryTaskManagerTest {
         task2 = new Task("Сделать уборку",
                 "Прибраться в квартире после тренировки", 2,
                 TaskStatus.NEW);
+        task3 = new Task("Сходить на тренировку", "Сегодня в 15.00", 1, NEW, Duration.ofMinutes(90),
+                LocalDateTime.now());
         epic1 = new Epic("Сдать спринт", "Сдать спринт чтобы пройти дальше по программе", 3,
                 TaskStatus.IN_PROGRESS, new ArrayList<>());
         manager.createEpic(epic1);
@@ -44,6 +52,17 @@ class InMemoryTaskManagerTest {
 
         //   manager.createSubtask(subtask1);
         manager.createSubtask(subtaskStartTime);
+    }
+    @Test
+    public void gsonConverterTest () {
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(Duration.class,new DurationTypeAdapter())
+                .registerTypeAdapter(LocalDateTime.class, new LocalTimeTypeAdapter())
+                .create();
+        String json = gson.toJson(task1);
+        System.out.println(json);
+        Task task = gson.fromJson(json, Task.class);
+        System.out.println(task);
     }
 
     @Test //InMemoryTaskManager добавляет задачи разного типа и может найти их по id
