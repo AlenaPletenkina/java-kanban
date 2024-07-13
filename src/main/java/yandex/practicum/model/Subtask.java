@@ -17,6 +17,10 @@ public class Subtask extends Task {
         this.epic = epic;
     }
 
+    public Subtask(String name, String description, TaskStatus status) {
+        super(name, description, status);
+    }
+
     public Integer getEpic() {
         return epic;
     }

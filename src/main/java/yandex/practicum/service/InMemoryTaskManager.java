@@ -325,22 +325,23 @@ public class InMemoryTaskManager implements TaskManager {
         List<Task> tasksWithStartTime = allTasks.stream()
                 .filter(task -> task.getStartTime() != null)
                 .toList();
+        sortedTasks.clear();
         sortedTasks.addAll(tasksWithStartTime);
     }
 
     private void validateTaskStartTime(Task task) {
-        if (task.getStartTime() == null) {
-            return;
-        }
-        boolean anyMatch = sortedTasks.stream()
-                .anyMatch(task1 -> {
-                    LocalDateTime startTime = task.getStartTime();
-                    LocalDateTime endTime = startTime.plus(task.getDuration());
-                    return !endTime.isBefore(task1.getStartTime())
-                            || startTime.isAfter(task1.getStartTime().plus(task1.getDuration()));
-                });
-        if (anyMatch) {
-            throw new TaskValidationException("Найдено пересечение времени задач.");
+        LocalDateTime startTime = task.getStartTime();
+        LocalDateTime endTime = startTime.plus(task.getDuration());
+        for (Task otherTask : sortedTasks) {
+            LocalDateTime otherStartTime = otherTask.getStartTime();
+            LocalDateTime otherEndTime = otherStartTime.plus(otherTask.getDuration());
+            boolean isBefore = endTime.isBefore(otherStartTime);
+            // Проверяем, пересекаются ли интервалы
+            if (!isBefore) {
+                if (!otherEndTime.isBefore(startTime)) {
+                    throw new TaskValidationException("Найдено пересечение времени задач.");
+                }
+            }
         }
     }
 }

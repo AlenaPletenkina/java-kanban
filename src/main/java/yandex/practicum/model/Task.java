@@ -1,9 +1,5 @@
 package yandex.practicum.model;
 
-import com.google.gson.annotations.JsonAdapter;
-import yandex.practicum.service.DurationTypeAdapter;
-import yandex.practicum.service.LocalTimeTypeAdapter;
-
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -39,6 +35,12 @@ public class Task implements Comparable {
     }
 
     public Task() {
+    }
+
+    public Task(String name, String description, TaskStatus status) {
+        this.name = name;
+        this.description = description;
+        this.status = status;
     }
 
     public String getName() {

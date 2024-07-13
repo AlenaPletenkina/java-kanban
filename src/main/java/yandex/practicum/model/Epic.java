@@ -2,7 +2,6 @@ package yandex.practicum.model;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 public class Epic extends Task {
@@ -19,6 +18,10 @@ public class Epic extends Task {
         super(name, description, id, status, duration, startTime);
         this.subtasks = subtasks;
         this.endTime = endTime;
+    }
+
+    public Epic(String name, String description, TaskStatus status) {
+        super(name, description, status);
     }
 
     public List<Integer> getSubtasks() {
