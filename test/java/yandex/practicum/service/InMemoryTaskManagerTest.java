@@ -10,6 +10,7 @@ import yandex.practicum.model.TaskStatus;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,22 +29,23 @@ class InMemoryTaskManagerTest {
 
     @BeforeEach
     public void beforeEach() {
-        task1 = new Task("Сходить на тренировку", "Сегодня в 15.00", 1, TaskStatus.NEW);
-        task2 = new Task("Сделать уборку",
-                "Прибраться в квартире после тренировки", 2,
-                TaskStatus.NEW);
+        task1 = new Task("Сходить на тренировку", "Сегодня в 15.00", 1, TaskStatus.NEW,
+                Duration.ofMinutes(10), LocalDateTime.of(2023, Month.JUNE, 25, 12, 0));
+        task2 = new Task("Сделать уборку", "Прибраться в квартире после тренировки", 2, TaskStatus.NEW,
+                Duration.ofMinutes(10), LocalDateTime.of(2022, Month.JUNE, 25, 12, 0));
         task3 = new Task("Сходить на тренировку", "Сегодня в 15.00", 1, NEW, Duration.ofMinutes(90),
-                LocalDateTime.now());
+                LocalDateTime.of(2021, Month.JUNE, 25, 12, 0));
         epic1 = new Epic("Сдать спринт", "Сдать спринт чтобы пройти дальше по программе", 3,
                 TaskStatus.IN_PROGRESS, new ArrayList<>());
         manager.createEpic(epic1);
         List<Epic> allEpics = manager.getAllEpics();
 
         subtask1 = new Subtask("Задания в тренажере",
-                "Сделать все задания в тренажере", 5, TaskStatus.NEW, allEpics.get(0).getId());
+                "Сделать все задания в тренажере", 5, TaskStatus.NEW, allEpics.get(0).getId(),
+                LocalDateTime.of(2020, Month.JUNE, 25, 12, 0), Duration.ofMinutes(30));
         subtaskStartTime = new Subtask("Задания в тренажере",
                 "Сделать все задания в тренажере", 5, TaskStatus.NEW, allEpics.get(0).getId(),
-                LocalDateTime.now(), Duration.ofMinutes(90));
+                LocalDateTime.of(2019, Month.JUNE, 25, 12, 0), Duration.ofMinutes(20));
         manager.createTask(task1);
         manager.createTask(task2);
 
@@ -183,7 +185,7 @@ class InMemoryTaskManagerTest {
     @Test
     public void failedValidationTaskTest() {
         task1 = new Task("Сходить на тренировку", "Сегодня в 15.00", 1, TaskStatus.NEW,
-                Duration.ofMinutes(90), LocalDateTime.now());
+                Duration.ofMinutes(10), LocalDateTime.of(2018, Month.JUNE, 25, 12, 0));
 
         assertThrowsExactly(TaskValidationException.class, () -> {
             manager.createTask(task1);
