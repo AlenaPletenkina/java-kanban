@@ -94,7 +94,7 @@ public class SubtaskHandler implements HttpHandler {
 
         } catch (JsonSyntaxException e) {
             writeResponse(exchange, "Получен некорректный JSON", 400);
-        } catch(TaskValidationException exp) {
+        } catch (TaskValidationException exp) {
             writeResponse(exchange, "Пересечение по времени ", 406);
         }
     }
