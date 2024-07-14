@@ -1,7 +1,5 @@
 package yandex.practicum.service;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import yandex.practicum.exception.TaskValidationException;
@@ -12,7 +10,6 @@ import yandex.practicum.model.TaskStatus;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,17 +49,6 @@ class InMemoryTaskManagerTest {
 
         //   manager.createSubtask(subtask1);
         manager.createSubtask(subtaskStartTime);
-    }
-    @Test
-    public void gsonConverterTest () {
-        Gson gson = new GsonBuilder()
-                .registerTypeAdapter(Duration.class,new DurationTypeAdapter())
-                .registerTypeAdapter(LocalDateTime.class, new LocalTimeTypeAdapter())
-                .create();
-        String json = gson.toJson(task1);
-        System.out.println(json);
-        Task task = gson.fromJson(json, Task.class);
-        System.out.println(task);
     }
 
     @Test //InMemoryTaskManager добавляет задачи разного типа и может найти их по id
