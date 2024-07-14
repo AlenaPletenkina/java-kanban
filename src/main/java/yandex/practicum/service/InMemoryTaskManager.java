@@ -131,8 +131,8 @@ public class InMemoryTaskManager implements TaskManager {
 
         if (epic != null) {
             List<Integer> subtasks1 = epic.getSubtasks();
-            if(subtasks1==null){
-                subtasks1=new ArrayList<>();
+            if (subtasks1 == null) {
+                subtasks1 = new ArrayList<>();
             }
             subtasks1.add(id);
             System.out.println("");
@@ -203,7 +203,7 @@ public class InMemoryTaskManager implements TaskManager {
         Epic epic = epics.get(id);
         List<Integer> subtasks1 = epic.getSubtasks();
 
-        if(subtasks1!=null) {
+        if (subtasks1 != null) {
             subtasks1.forEach(subtask -> {
                 subtasks.remove(subtask);
                 historyManager.remove(subtask);
