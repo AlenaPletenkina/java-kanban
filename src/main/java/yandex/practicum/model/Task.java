@@ -35,12 +35,14 @@ public class Task implements Comparable {
     }
 
     public Task() {
+        setType();
     }
 
     public Task(String name, String description, TaskStatus status) {
         this.name = name;
         this.description = description;
         this.status = status;
+        setType();
     }
 
     public String getName() {

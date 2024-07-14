@@ -107,7 +107,6 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public Task createTask(Task task) {
-        System.out.println("Приступаю к созданию таски"+task);
         validateTaskStartTime(task);
         task.setId(generateId());
         tasks.put(task.getId(), task);
@@ -129,12 +128,10 @@ public class InMemoryTaskManager implements TaskManager {
         subtask.setId(id);
         subtasks.put(subtask.getId(), subtask);
         Epic epic = epics.get(subtask.getEpic());
-        System.out.println("При создании сабтаска нашел его эпик "+ epic);
+
         if (epic != null) {
-            System.out.println("Эпик не равен нулю");
             List<Integer> subtasks1 = epic.getSubtasks();
             if(subtasks1==null){
-                System.out.println("Список сабтаск равен нулю");
                 subtasks1=new ArrayList<>();
             }
             subtasks1.add(id);
@@ -196,7 +193,6 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void removeTaskById(int id) {
-        System.out.println("Приступаю к удалению задачи с ид"+id);
         tasks.remove(id);
         historyManager.remove(id);
         updateSortedTask();
@@ -205,9 +201,8 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public void removeEpicById(int id) {
         Epic epic = epics.get(id);
-        System.out.println("Получил эпик для удаления "+epic);
         List<Integer> subtasks1 = epic.getSubtasks();
-        System.out.println("список сабтасков эпика " +subtasks1);
+
         if(subtasks1!=null) {
             subtasks1.forEach(subtask -> {
                 subtasks.remove(subtask);
@@ -255,7 +250,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     public TaskStatus getStatus(Epic epic) {
         List<Subtask> subtasks1 = getSubtaskList(epic);
-        System.out.println("Получил список сабтаскаов из эпика"+subtasks1);
+
         int count = 0;
         int countNew = 0;
         for (Subtask subtask : subtasks1) {

@@ -42,9 +42,6 @@ public class TaskHandler implements HttpHandler {
         String method = exchange.getRequestMethod();
         String path = String.valueOf(exchange.getRequestURI());
 
-        //InputStream inputStream = exchange.getRequestBody();
-        //String body = new String(inputStream.readAllBytes(), DEFAULT_CHARSET);
-
         System.out.println("Обрабатывается запрос " + path + " с методом " + method);
         switch (method) {
             case "GET":
@@ -76,7 +73,6 @@ public class TaskHandler implements HttpHandler {
         int id = getTaskId(exchange).get();
         Task taskById = taskManager.getTaskById(id);
         if (isNull(taskById)) {
-            System.out.println("Задачи с таким айди не найдено");
             writeResponse(exchange, "Задач с таким id не найдено!", 404);
             return;
         }
@@ -88,16 +84,13 @@ public class TaskHandler implements HttpHandler {
         try {
             InputStream json = exchange.getRequestBody();
             String jsonTask = new String(json.readAllBytes(), DEFAULT_CHARSET);
-            System.out.println("Получил Жсон на создание таск"+jsonTask);
             Task task = gson.fromJson(jsonTask, Task.class);
-            System.out.println("Получил запрос на создание таски -"+task);
             if (task == null) {
                 writeResponse(exchange, "Задача не должна быть пустой!", 400);
                 return;
             }
             Task taskById = taskManager.getTaskById(task.getId());
             if (taskById == null) {
-                System.out.println("Не нашел таску с айди"+task.getId());
                 taskManager.createTask(task);
                 writeResponse(exchange, "Задача успешно добавлена!", 201);
                 return;
@@ -114,20 +107,17 @@ public class TaskHandler implements HttpHandler {
 
     private void deleteTask(HttpExchange exchange) throws IOException {
         String query = exchange.getRequestURI().getQuery();
-        System.out.println("Получил запрос на удаление таски "+query);
+
         if (query == null) {
-            System.out.println("Запрос не содержит параметр ");
             writeResponse(exchange, "Не указан id задачи ", 404);
             return;
         }
         if (getTaskId(exchange).isEmpty()) {
-            System.out.println("НЕ указан ид задачи ");
             writeResponse(exchange, "Не указан id задачи ", 404);
             return;
         }
         int id = getTaskId(exchange).get();
         if (taskManager.getTaskById(id) == null) {
-            System.out.println("Задач с таким id не найдено");
             writeResponse(exchange, "Задач с таким id не найдено!", 404);
             return;
         }
@@ -137,7 +127,6 @@ public class TaskHandler implements HttpHandler {
 
     private Optional<Integer> getTaskId(HttpExchange exchange) {
         String[] pathParts = exchange.getRequestURI().getQuery().split("=");
-        System.out.println("Получил запрос с айди равное "+ pathParts[1]);
         try {
             return Optional.of(Integer.parseInt(pathParts[1]));
         } catch (NumberFormatException exception) {

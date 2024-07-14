@@ -32,7 +32,7 @@ public class EpicHandler implements HttpHandler {
     public EpicHandler(TaskManager newTaskManager) {
         this.taskManager = newTaskManager;
         this.gson = new GsonBuilder()
-                .registerTypeAdapter(Duration.class,new DurationTypeAdapter())
+                .registerTypeAdapter(Duration.class, new DurationTypeAdapter())
                 .registerTypeAdapter(LocalDateTime.class, new LocalTimeTypeAdapter())
                 .create();
     }
@@ -51,7 +51,7 @@ public class EpicHandler implements HttpHandler {
                 deleteEpic(exchange);
                 break;
             default:
-                writeResponse(exchange, "Такого операции не существует", 404);
+                writeResponse(exchange, "Такой операции не существует", 404);
         }
     }
 
@@ -109,20 +109,16 @@ public class EpicHandler implements HttpHandler {
 
     private void deleteEpic(HttpExchange exchange) throws IOException {
         String query = exchange.getRequestURI().getQuery();
-        System.out.println("Получил запрос на удаление эпика "+query);
         if (query == null) {
-            System.out.println("Запрос не содержит параметр ");
             writeResponse(exchange, "Не указан id эпика!", 404);
             return;
         }
         if (getTaskId(exchange).isEmpty()) {
-            System.out.println("НЕ указан ид задачи ");
             writeResponse(exchange, "Не указан id эпика!", 404);
             return;
         }
         int id = getTaskId(exchange).get();
         if (taskManager.getEpicById(id) == null) {
-            System.out.println("Задач с таким id не найдено");
             writeResponse(exchange, "Эпиков с таким id не найдено!", 404);
             return;
         }

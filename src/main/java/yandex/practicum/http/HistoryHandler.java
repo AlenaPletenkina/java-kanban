@@ -11,12 +11,12 @@ import java.nio.charset.StandardCharsets;
 
 public class HistoryHandler implements HttpHandler {
     TaskManager taskManager;
-    private final Gson gson ;
+    private final Gson gson;
     String response;
 
     public HistoryHandler(TaskManager newTaskManager) {
         this.taskManager = newTaskManager;
-        this.gson= new Gson();
+        this.gson = new Gson();
     }
 
     @Override
@@ -27,8 +27,7 @@ public class HistoryHandler implements HttpHandler {
                 getHistoryList(exchange);
                 break;
             default:
-                writeResponse(exchange, "Такого операции не существует", 404);
-
+                writeResponse(exchange, "Такой операции не существует", 404);
         }
     }
 

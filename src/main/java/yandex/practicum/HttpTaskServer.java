@@ -8,10 +8,8 @@ import yandex.practicum.service.TaskManager;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 
-
 public class HttpTaskServer {
-    public  HttpServer httpServer;
-
+    public HttpServer httpServer;
     private static final int PORT = 8080;
     private static final TaskManager taskManager = Managers.getDefault();
 
@@ -26,8 +24,8 @@ public class HttpTaskServer {
     }
 
     public static void main(String[] args) throws IOException {
-
     }
+
     public void start() {
         httpServer.start();
     }

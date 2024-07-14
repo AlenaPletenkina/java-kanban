@@ -17,7 +17,7 @@ public class DurationTypeAdapter extends TypeAdapter<Duration> {
 
     @Override
     public void write(JsonWriter jsonWriter, Duration duration) throws IOException {
-        if(isNull(duration)) {
+        if (isNull(duration)) {
             jsonWriter.nullValue();
             return;
         }
@@ -45,9 +45,6 @@ public class DurationTypeAdapter extends TypeAdapter<Duration> {
             long minutes = m.group(3) != null ? Long.parseLong(m.group(3)) : 0;
             long seconds = m.group(4) != null ? Long.parseLong(m.group(4)) : 0;
 
-            // Milliseconds are trickier because if the input string is not properly formatted (e.g. ".1") we need to
-            // right pad the input string with zeros -- ".1" is really 100 milliseconds. Likewise, if the string is
-            // larger than 3 characters, we need to cut off extra characters.
             String millisecondsSource = m.group(5) != null ? m.group(5) : "000";
             while (millisecondsSource.length() < 3)
                 millisecondsSource += '0';
@@ -56,7 +53,6 @@ public class DurationTypeAdapter extends TypeAdapter<Duration> {
 
             long millisTotal = ((hours * 60 + minutes) * 60 + seconds) * 1000 + millis;
 
-            // Negate final output if '-' was on original input
             if (m.group(1).equals("-"))
                 millisTotal = -millisTotal;
 

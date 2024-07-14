@@ -13,7 +13,6 @@ public class InMemoryHistoryManager implements HistoryManager {
 
     @Override
     public void add(Task task) { // добавляет задачу в связный список и в customHashMap
-        System.out.println("Получил запрос на добавление в историю таски-"+task);
         int taskId = task.getId();
         if (customHashMap.containsKey(taskId)) {
             Node node = customHashMap.remove(taskId);
