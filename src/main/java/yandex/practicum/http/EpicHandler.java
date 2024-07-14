@@ -70,14 +70,14 @@ public class EpicHandler implements HttpHandler {
             return;
         }
         if (getTaskId(exchange).isEmpty()) {
-            writeResponse(exchange, "Некорректный идентификатор!", 400);
+            writeResponse(exchange, "Некорректный идентификатор " + getTaskId(exchange), 400);
             return;
         }
 
         int id = getTaskId(exchange).get();
         Epic epicById = taskManager.getEpicById(id);
         if (isNull(epicById)) {
-            writeResponse(exchange, "Задач с таким id не найдено!", 404);
+            writeResponse(exchange, "Задач с id " + id + " не найдено!", 404);
             return;
         }
         response = gson.toJson(epicById);
@@ -119,7 +119,7 @@ public class EpicHandler implements HttpHandler {
         }
         int id = getTaskId(exchange).get();
         if (taskManager.getEpicById(id) == null) {
-            writeResponse(exchange, "Эпиков с таким id не найдено!", 404);
+            writeResponse(exchange, "Эпиков с id " + id + " не найдено!", 404);
             return;
         }
         taskManager.removeEpicById(id);

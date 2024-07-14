@@ -50,7 +50,7 @@ public class SubtaskHandler implements HttpHandler {
                 deleteSubTask(exchange);
                 break;
             default:
-                writeResponse(exchange, "Такого операции не существует", 404);
+                writeResponse(exchange, "Такой операции не существует", 404);
         }
     }
 
@@ -61,13 +61,13 @@ public class SubtaskHandler implements HttpHandler {
             return;
         }
         if (getTaskId(exchange).isEmpty()) {
-            writeResponse(exchange, "Некорректный идентификатор!", 400);
+            writeResponse(exchange, "Некорректный идентификатор " + getTaskId(exchange), 400);
             return;
         }
         int id = getTaskId(exchange).get();
         Subtask subtaskById = taskManager.getSubtaskById(id);
         if (isNull(subtaskById)) {
-            writeResponse(exchange, "Задач с таким id не найдено!", 404);
+            writeResponse(exchange, "Задач с id " + id + " не найдено!", 404);
             return;
         }
         response = gson.toJson(subtaskById);
@@ -110,7 +110,7 @@ public class SubtaskHandler implements HttpHandler {
         }
         int id = getTaskId(exchange).get();
         if (taskManager.getSubtaskById(id) == null) {
-            writeResponse(exchange, "Подзадачи с таким id не найдено!", 404);
+            writeResponse(exchange, "Подзадачи с id " + id + " не найдено!", 404);
             return;
         }
     taskManager.removeSubtaskById(id);

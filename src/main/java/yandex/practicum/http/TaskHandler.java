@@ -66,14 +66,14 @@ public class TaskHandler implements HttpHandler {
         }
 
         if (getTaskId(exchange).isEmpty()) {
-            writeResponse(exchange, "Некорректный идентификатор!", 400);
+            writeResponse(exchange, "Некорректный идентификатор " + getTaskId(exchange), 400);
             return;
         }
 
         int id = getTaskId(exchange).get();
         Task taskById = taskManager.getTaskById(id);
         if (isNull(taskById)) {
-            writeResponse(exchange, "Задач с таким id не найдено!", 404);
+            writeResponse(exchange, "Задач с id " + id + " не найдено!", 404);
             return;
         }
         response = gson.toJson(taskById);
@@ -118,7 +118,7 @@ public class TaskHandler implements HttpHandler {
         }
         int id = getTaskId(exchange).get();
         if (taskManager.getTaskById(id) == null) {
-            writeResponse(exchange, "Задач с таким id не найдено!", 404);
+            writeResponse(exchange, "Задач с таким id " + id +" не найдено!", 404);
             return;
         }
         taskManager.removeTaskById(id);
