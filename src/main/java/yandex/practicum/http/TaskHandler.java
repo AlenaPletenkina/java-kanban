@@ -100,7 +100,7 @@ public class TaskHandler implements HttpHandler {
 
         } catch (JsonSyntaxException e) {
             writeResponse(exchange, "Получен некорректный JSON", 400);
-        }catch (TaskValidationException exp){
+        } catch (TaskValidationException exp) {
             writeResponse(exchange, "Найдено пересечение по времени!", 406);
         }
     }
