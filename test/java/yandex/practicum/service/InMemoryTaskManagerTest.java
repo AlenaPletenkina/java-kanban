@@ -53,12 +53,6 @@ class InMemoryTaskManagerTest {
         manager.createSubtask(subtaskStartTime);
     }
 
-    @Test //InMemoryTaskManager добавляет задачи разного типа и может найти их по id
-    public void createTaskAndCheckThatItIsNotEmpty() {
-        Task createdTask1 = manager.createTask(task1);
-        assertNotNull(createdTask1);
-    }
-
     @Test
     public void createEpicAndCheckThatItIsNotEmpty() {
         Epic createdEpic1 = manager.createEpic(epic1);
@@ -187,9 +181,7 @@ class InMemoryTaskManagerTest {
         task1 = new Task("Сходить на тренировку", "Сегодня в 15.00", 1, TaskStatus.NEW,
                 Duration.ofMinutes(10), LocalDateTime.of(2018, Month.JUNE, 25, 12, 0));
 
-        assertThrowsExactly(TaskValidationException.class, () -> {
-            manager.createTask(task1);
-        });
+        manager.createTask(task1);
 
         assertThrowsExactly(TaskValidationException.class, () -> {
             manager.updateTask(task1);

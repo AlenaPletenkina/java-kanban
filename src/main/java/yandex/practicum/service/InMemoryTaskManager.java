@@ -325,6 +325,9 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     private void validateTaskStartTime(Task task) {
+        if (task.getStartTime() == null) {
+            return;
+        }
         LocalDateTime startTime = task.getStartTime();
         LocalDateTime endTime = startTime.plus(task.getDuration());
         for (Task otherTask : sortedTasks) {
