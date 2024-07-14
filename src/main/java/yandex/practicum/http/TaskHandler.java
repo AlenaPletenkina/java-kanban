@@ -118,7 +118,7 @@ public class TaskHandler implements HttpHandler {
         }
         int id = getTaskId(exchange).get();
         if (taskManager.getTaskById(id) == null) {
-            writeResponse(exchange, "Задач с таким id " + id +" не найдено!", 404);
+            writeResponse(exchange, "Задач с таким id " + id + " не найдено!", 404);
             return;
         }
         taskManager.removeTaskById(id);
