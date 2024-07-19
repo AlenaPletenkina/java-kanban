@@ -7,7 +7,7 @@ import java.util.Objects;
 public class Task implements Comparable {
     private String name;
     private String description;
-    private int id;
+    private Integer id;
     private TaskStatus status;
     private TaskType type;
     private Duration duration;
@@ -35,6 +35,14 @@ public class Task implements Comparable {
     }
 
     public Task() {
+        setType();
+    }
+
+    public Task(String name, String description, TaskStatus status) {
+        this.name = name;
+        this.description = description;
+        this.status = status;
+        setType();
     }
 
     public String getName() {
@@ -45,7 +53,7 @@ public class Task implements Comparable {
         return description;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 

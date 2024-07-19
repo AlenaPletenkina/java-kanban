@@ -131,7 +131,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         LocalDateTime startTime = LocalDateTime.parse(linesTask[6]);
         if (type.equals(EPIC.name())) {
             LocalDateTime endTime = LocalDateTime.parse(linesTask[8]);
-            return new Epic(name, description, id, status, new ArrayList<>(),startTime,duration,endTime);
+            return new Epic(name, description, id, status, new ArrayList<>(), startTime, duration, endTime);
         } else if (type.equals((SUBTASK.name()))) {
             int epic = Integer.parseInt(linesTask[7]);
             return new Subtask(name, description, id, status, epic, startTime, duration);
